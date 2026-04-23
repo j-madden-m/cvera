@@ -4,6 +4,7 @@
 # cvera
 
 <!-- badges: start -->
+
 <!-- badges: end -->
 
 ------------------------------------------------------------------------
@@ -20,79 +21,102 @@ You can install the development version of cvera from
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("044mj/cvera")
+devtools::install_github("j-madden-m/cvera")
 ```
 
-## Example
-
-Extract yearly summary data and visualisations of reactor numbers from
-`master_tb` dataset.
-
-Read in data:
+Additionally install cvera specific **snippets**:
 
 ``` r
-library(tidyverse)
-# if using readr::read_csv() they use first 1000 rows to guess type. 
-# If the first 1,000 are missing, it will default to logical. GIF variables are missing in the first 1000
-#because it only came in during May 2019 so include col_types for these variables:
-master_tb <- read_csv("data/master_tb_24_Mar_2022.csv", 
-                          col_types = cols(.default = "?", 
-                                           gif_actual_date = col_date(), 
-                                           gif_cases = col_number(),
-                                           sequence_number = col_character()))
+install_cvera_snippets()
 ```
 
-Using `all_cases_per_year` from `cvera` package:
+## Automatically reading in the latest available data
+
+Once snippets are installed, cvera related snippets can be accessed by
+starting to type “cvera”:
+
+<div class="figure">
+
+<img src="data/snippet_screenshot.png" alt="cvera snippets" width="100%" />
+<p class="caption">
+
+cvera snippets
+</p>
+
+</div>
+
+### master_tb (herd-level skin testing data)
+
+E.g. clicking `cvera_master_tb_snip` will automatically populate the
+following code:
+
+<div class="figure">
+
+<img src="data/snippet_screenshot_master.png" alt="master_tb snippets" width="100%" />
+<p class="caption">
+
+master_tb snippets
+</p>
+
+</div>
+
+which reads in the most recent `master_tb` dataset and gives details of
+latest file name, date etc:
+
+<div class="figure">
+
+<img src="data/snippet_screenshot_master_console.png" alt="Console output" width="100%" />
+<p class="caption">
+
+Console output
+</p>
+
+</div>
+
+Or manually reading it in using `master_tb_cvera_read_in` function:
 
 ``` r
 library(cvera)
-#drop 2022 figures as we only have 3 months worth of data
-cases <- all_cases_per_year(master_tb, drop_years = c(2022))
+my_master_tb_dataset <- master_tb_cvera_read_in()
 ```
 
-results in
+### bd_df (breakdown dataset)
 
-    #> [[1]]
-    #> # A tibble: 17 × 5
-    #>     year skin_test_reactors slaughter_detected gif_cases all_cases
-    #>    <int>              <dbl>              <int>     <int>     <dbl>
-    #>  1  2005              25975               2709        NA     28684
-    #>  2  2006              24159               3215        NA     27374
-    #>  3  2007              27735               3421        NA     31156
-    #>  4  2008              29901               3003        NA     32904
-    #>  5  2009              23820               2714        NA     26534
-    #>  6  2010              20218               2680        NA     22898
-    #>  7  2011              18557               1905        NA     20462
-    #>  8  2012              18499               2015        NA     20514
-    #>  9  2013              15680               1962        NA     17642
-    #> 10  2014              16139               1709        NA     17848
-    #> 11  2015              15364               1583        NA     16947
-    #> 12  2016              16967               1516        NA     18483
-    #> 13  2017              17336               1628        NA     18964
-    #> 14  2018              17548               1657        NA     19205
-    #> 15  2019              14323               1671      2456     18450
-    #> 16  2020              17685               2048      4920     24653
-    #> 17  2021              15401               1706      5527     22634
-    #> 
-    #> [[2]]
-    #> Warning: Removed 14 row(s) containing missing values (geom_path).
-    #> Warning: Removed 14 rows containing missing values (geom_point).
-
-<img src="man/figures/README-example_ouput-1.png" width="100%" />
-
-## Interactive herd plot:
+Use snippet `cvera_bd_df_snip` to produce:
 
 ``` r
-p <- herd_plot(master_tb, "x1234567") #fake herd
-p
+# read in bd_df
+bd_df <- bd_df_read_in()
 ```
 
-<img src="data/herd_plot_figure_2.png" title="Herd plot" alt="Herd plot" width="100%" />
+### all_cases_collapsed (animal-level bTB cases dataset)
 
-## Create BD file - summary of all BDs
+Use snippet `cvera_all_cases_collapsed_snip` to produce:
 
 ``` r
-bd_df <- bd_dataset_fun(master_tb)
+# read in all_cases_collapsed
+all_cases_collapsed <- all_cases_collapsed_read_in()
+```
+
+### connect to AIM movement database
+
+Once a connection is made to the SQL AIM database (once off set up), run
+the following snippet to access sample code to query moves:
+`cvera_connect_to_db_moves_snip`
+
+## Updated interactive herd plot:
+
+Once all three datasets are read in, a herd-level plot can be created:
+
+``` r
+herd_plot("x1234567") #fake herd
+```
+
+We can include raw data for the herd in the output
+
+``` r
+# include tables
+herd_plot("x1234567", include_tables = TRUE) #fake herd
 ```
 
 ## Check if BD occured during particular years

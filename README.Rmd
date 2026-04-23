@@ -30,63 +30,105 @@ You can install the development version of cvera from [GitHub](https://github.co
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("044mj/cvera")
+devtools::install_github("j-madden-m/cvera")
 ```
 
-## Example
+Additionally install cvera specific **snippets**:
 
-Extract yearly summary data and visualisations of reactor numbers from `master_tb` dataset. 
-
-Read in data:
-
-```{r reading_in, include = T, warning = FALSE, eval = FALSE}
-library(tidyverse)
-# if using readr::read_csv() they use first 1000 rows to guess type. 
-# If the first 1,000 are missing, it will default to logical. GIF variables are missing in the first 1000
-#because it only came in during May 2019 so include col_types for these variables:
-master_tb <- read_csv("data/master_tb_24_Mar_2022.csv", 
-                          col_types = cols(.default = "?", 
-                                           gif_actual_date = col_date(), 
-                                           gif_cases = col_number(),
-                                           sequence_number = col_character()))
+``` r
+install_cvera_snippets()
 ```
 
-Using `all_cases_per_year` from `cvera` package:
 
-```{r example, eval = FALSE}
+## Automatically reading in the latest available data
+
+Once snippets are installed, cvera related snippets can be accessed by starting to type "cvera":
+
+```{r snippetscreenshot, echo = F, eval = T, include=T, warning = F, error=F, out.width="100%", out.width="100%", fig.cap = "cvera snippets"}
+knitr::include_graphics("data/snippet_screenshot.png") #works in chunk but not when you render
+#knitr::include_graphics(path.expand("~/data/historic_gif_eamonn.png"))
+```
+
+### master_tb (herd-level skin testing data)
+
+E.g. clicking `cvera_master_tb_snip` will automatically populate the following code:
+
+
+```{r snippetscreenshotmastertb, echo = F, eval = T, include=T, warning = F, error=F, out.width="100%", out.width="100%", fig.cap = "master_tb snippets"}
+knitr::include_graphics("data/snippet_screenshot_master.png") #works in chunk but not when you render
+#knitr::include_graphics(path.expand("~/data/historic_gif_eamonn.png"))
+```
+
+which reads in the most recent `master_tb` dataset and gives details of latest file name, date etc:
+
+
+```{r snippetscreenshotmastertbconcole, echo = F, eval = T, include=T, warning = F, error=F, out.width="100%", out.width="100%", fig.cap = "Console output"}
+knitr::include_graphics("data/snippet_screenshot_master_console.png") #works in chunk but not when you render
+#knitr::include_graphics(path.expand("~/data/historic_gif_eamonn.png"))
+```
+
+
+Or manually reading it in using `master_tb_cvera_read_in` function:
+
+```{r reading_in_master_tb, include = T, warning = FALSE, eval = FALSE}
 library(cvera)
-#drop 2022 figures as we only have 3 months worth of data
-cases <- all_cases_per_year(master_tb, drop_years = c(2022))
+my_master_tb_dataset <- master_tb_cvera_read_in()
 ```
 
 
-results in
 
-```{r example_ouput, eval = TRUE, echo = FALSE}
-cases_example <- readRDS("data/cases_example.rds")
-cases_example
+### bd_df (breakdown dataset)
+
+Use snippet `cvera_bd_df_snip` to produce:
+
+```{r reading_in_bd_df, include = T, warning = FALSE, eval = FALSE}
+# read in bd_df
+bd_df <- bd_df_read_in()
 ```
 
 
-## Interactive herd plot:
+### all_cases_collapsed (animal-level bTB cases dataset)
+
+Use snippet `cvera_all_cases_collapsed_snip` to produce:
+
+
+```{r reading_in_all_cases, include = T, warning = FALSE, eval = FALSE}
+# read in all_cases_collapsed
+all_cases_collapsed <- all_cases_collapsed_read_in()
+```
+
+
+### connect to AIM movement database
+
+Once a connection is made to the SQL AIM database (once off set up), run the following snippet to access sample code to query moves: `cvera_connect_to_db_moves_snip`
+
+
+
+## Updated interactive herd plot:
+
+Once all three datasets are read in, a herd-level plot can be created: 
 
 
 ```{r herd_plot_out, eval = F, echo = T}
-p <- herd_plot(master_tb, "x1234567") #fake herd
-p
+herd_plot("x1234567") #fake herd
 ```
 
-```{r herdplotfigure, echo = F, eval = T, include=T, warning = F, error=F, out.width="100%", out.width="100%", fig.cap = "Herd plot"}
+
+We can include raw data for the herd in the output
+
+```{r herd_plot_out_with_tables, eval = F, echo = T}
+# include tables
+herd_plot("x1234567", include_tables = TRUE) #fake herd
+```
+
+
+
+```{r herdplotfigure, echo = F, eval = F, include=F, warning = F, error=F, out.width="100%", out.width="100%", fig.cap = "Herd plot"}
 knitr::include_graphics("data/herd_plot_figure_2.png") #works in chunk but not when you render
 #knitr::include_graphics(path.expand("~/data/historic_gif_eamonn.png"))
 ```
 
 
-## Create BD file - summary of all BDs 
-
-```{r bd_file_test, eval = F, echo = T}
-bd_df <- bd_dataset_fun(master_tb)
-```
 
 ## Check if BD occured during particular years
 
@@ -106,6 +148,3 @@ master_tb %>%
 ```{r bd_within_time_period_test, eval = F, echo = T}
 bd_df <- bd_within_time_period(bd_df, 2016, 730)
 ```
-
-
-

@@ -20,3 +20,18 @@ be added into a pipe. Saves having to type them out manually.
 \details{
 DETAILS
 }
+\examples{
+\dontrun{
+#master_tb \%>\%
+# filter(total_reactor_skin > 10) \%>\%
+# core_vars()
+#add variables
+#master_tb \%>\%
+# filter(total_reactor_skin > 10) \%>\%
+# core_vars(county)
+#remove one of the core variables
+#master_tb \%>\%
+# filter(total_reactor_skin > 10) \%>\%
+# core_vars(-test_type)
+}
+}

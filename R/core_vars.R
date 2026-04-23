@@ -9,7 +9,6 @@
 #'
 #' @examples
 #' \dontrun{
-#' if(interactive()){
 #' #master_tb %>%
 #' # filter(total_reactor_skin > 10) %>%
 #' # core_vars()

@@ -5,18 +5,15 @@
 \title{herd_plot}
 \usage{
 herd_plot(
-  df,
   herd_no_character,
   start_date = NULL,
   end_date = NULL,
   format = "\%Y-\%m-\%d",
-  plotly_output = TRUE,
+  include_tables = FALSE,
   alternative_herd_no_name = NULL
 )
 }
 \arguments{
-\item{df}{master_tb dataset}
-
 \item{herd_no_character}{herd number}
 
 \item{start_date}{start date of plot search. Format, '\%Y-\%m-\%d'. Default is NULL so all years are plotted.}
@@ -25,7 +22,7 @@ herd_plot(
 
 \item{format}{date format, Default: '\%Y-\%m-\%d'}
 
-\item{plotly_output}{Decide whether plot output is static or interactive. Default is TRUE which returns interactive plotly graph.}
+\item{include_tables}{Include herd-level tables of master_tb and breakdown datatset bd_df for the herd of interest. Default is FALSE which produces interactive plot without tables.}
 
 \item{alternative_herd_no_name}{If you want to change the herd_no in title to something else.}
 }
@@ -41,14 +38,10 @@ DETAILS
 \examples{
 \dontrun{
 if(interactive()){
-p <- herd_plot(master_tb, "x1234567")
-p
-p <- herd_plot(master_tb, "x1234567", start_date = "2010-01-01")
-p
-p <- herd_plot(master_tb, "x1234567", plotly_output = FALSE) #static plot
-p
-p <- herd_plot(master_tb, "x1234567", plotly_output = FALSE, alternative_herd_no_name = "other name/number")
-p
+herd_plot("x1234567")
+herd_plot("x1234567", start_date = "2010-01-01")
+herd_plot("x1234567", include_tables = TRUE, alternative_herd_no_name = "other name/number")
+
  }
 }
 }

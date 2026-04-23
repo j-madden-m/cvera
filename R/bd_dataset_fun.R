@@ -10,7 +10,6 @@
 #'
 #' @examples
 #' \dontrun{
-#' if(interactive()){
 #' #bd_df <- bd_dataset_fun(master_tb)
 #' }
 #' @export

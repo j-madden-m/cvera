@@ -21,3 +21,8 @@ herd can have multiple rows if it has had more than one BD.
 \details{
 DETAILS
 }
+\examples{
+\dontrun{
+#bd_df <- bd_dataset_fun(master_tb)
+}
+}

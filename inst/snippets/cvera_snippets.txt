@@ -1,0 +1,108 @@
+# >>> cverasnippets start >>>
+
+snippet cvera_master_tb_snip
+	# read in master_tb
+	master_tb <- master_tb_cvera_read_in()
+
+
+snippet cvera_bd_df_snip
+	# read in bd_df
+	bd_df <- bd_df_cvera_read_in()
+
+
+snippet cvera_all_cases_collapsed_snip
+	# read in all_cases_collapsed
+	all_cases <- all_cases_cvera_read_in()
+
+
+snippet cvera_connect_to_db_moves_snip
+	# connect to Jamie T SQL AIM database ----
+	con_move <- connect_to_movement_db(final1)
+	# list of tables on server in final1
+	all_tables_server <- DBI::dbListTables(con_move)
+	# e.g. search for table:
+	# str_subset(all_tables_server, "htype")
+	# locate movement table
+	all_moves <- dplyr::tbl(con_move, "moves_2000_2024_unique_1")
+
+	# uncomment/comment lines as required and edit appropriately
+	# you can shift the location of data and function call to the most efficient location (on the server or locally)
+	# if using sql specific functions, you may need: library(dbplyr)
+	moves_tmp <- all_moves %>%
+	  rename_all(tolower) %>%
+	  rename(move_from = move_from_final,
+	         move_to = move_to_final,
+	         move_date = move_date_final) %>%
+	  head(100) %>%
+	  # %in% is great in R but slow in dbplyr if you have a long vector (merge datasets may be needed)
+	  # filter(data_year == 2023) %>%
+	  # or filter on character variable of date:
+	  # filter(move_from %like% "2018%") %>%
+	  # OLD = online dealer, EXP = export?, IMP = import
+	  # filter((data_type  %in%  c("ABAT", "DoF", "EXP", "FACT", "F_to_F", "IMP", "Mart", "OLD"))) %>%
+	  # convert date to date class - may want to do this locally though
+	  # some functions are given SQL translations in dbplyr e.g lubridate: year(), month(), day()
+	  # as.Date/ymd dont translate over
+	  # mutate(move_date = year(move_date)) %>%
+	  # trailing white space can be an issue (although not on sql side)
+	  # mutate_if(is.character, str_trim, side = "right") %>%
+	  # mutate(tag = str_trim(tag, "both")) %>%  #remove white space first
+	  collect() # %>%
+	  # mutate(move_date = as.Date(move_date, format = "%Y%m%d")) %>%  # YYYYMMDD
+	  # or:
+	  # mutate(move_date = ymd(move_date))
+
+
+snippet cvera_connect_to_db_herd_type_snip
+	# connect to Jamie T SQL AIM database ----
+	con_move <- connect_to_movement_db(final1)
+	# list of tables on server in final1
+	all_tables_server <- DBI::dbListTables(con_move)
+	# e.g. search for table:
+	# str_subset(all_tables_server, "htype")
+	# locate herd_type table
+	herd_type_2008_24 <- dplyr::tbl(con_move, "htype_2008_24")
+
+	# uncomment/comment lines as required and edit appropriately
+	# you can shift the location of data and function call to the most efficient location (on the server or locally)
+	# if using sql specific functions, you may need: library(dbplyr)
+	herd_type_2008_24_tmp <- herd_type_2008_24 %>%
+	  rename_all(tolower) %>%
+	  rename(herd_no = herd) %>%
+	  select(herd_no, matches("jan_|may_|sep_|class|count")) %>%
+	  collect()
+	names(herd_type_2008_24_tmp)
+
+	# database stores it in wide format, convert to long format
+	herd_type_jamie_t_df <- herd_type_2008_24_tmp %>%
+	  # theres 10 weird ones, one empty herd_no and a few that look like factories
+	  # actually fixed now but i will leave in case for future runs
+	  filter(!grepl(' ', herd_no)) %>%
+	  #rename(herd_no = herd) %>%
+	  select(herd_no, matches("_sz|class|count")) %>%
+	  rename_at(vars(starts_with("sub_class")), list(~ paste("subclass", gsub("sub_class", "", .), sep = ""))) %>%
+	  rename_at(vars(ends_with("_sz")), list(~ gsub("_(\\d{2})_sz$", "_20\\1", .))) %>%
+	  rename_at(vars(starts_with("count_")), list(~ gsub("_(\\d{2})$", "_20\\1", .))) %>%
+	  #https://stackoverflow.com/questions/71895142/pivoting-multiple-sets-of-columns-using-pivot-longer-in-r
+	  pivot_longer(cols = -herd_no, names_to = c(".value", "year"),
+	               names_pattern = "^([a-z]+)_(\\d+)") %>%
+	  mutate(year = as.numeric(year)) %>%
+	  rename(year_to_merge_herd_type = year,
+	         herd_type_ml = class, #ml = machine learning
+	         herd_type_ml_sub_class = subclass,
+	         herd_size_jan = jan,
+	         herd_size_may = may,
+	         herd_size_sep = sep,
+	         # there were > 0 animals on 1st Jan, May, Sept or any movements in or out
+	         dormant_in_year_based_on_aim = count) %>%
+	  arrange(herd_no, year_to_merge_herd_type) %>%
+	  mutate_at(vars(herd_size_jan, herd_size_may, herd_size_sep), ~replace_na(., 0))
+	herd_type_jamie_t_df
+
+
+
+
+
+
+
+# >>> cverasnippets end >>>

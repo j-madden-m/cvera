@@ -1,7 +1,7 @@
 Type: Package
 Package: cvera
 Title: Utility Functions For Use With bTB Testing Datasets
-Version: 0.0.0.9000
+Version: 0.0.1
 Authors@R: 
           person("Jamie", "Madden", email = "jamie.madden@ucd.ie",
                           role = c("aut", "cre"),
@@ -11,12 +11,18 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.1
+RoxygenNote: 7.3.3
 Imports: 
     cowplot,
     data.table,
     dplyr,
     ggplot2,
+    ggiraph,
+    ggnewscale,
+    ggthemes,
+    gt,
+    htmltools,
+    stats,
     ggsci,
     kableExtra,
     knitr,
@@ -25,6 +31,15 @@ Imports:
     purrr,
     rlang,
     sjlabelled,
-    tidyr
-URL: https://github.com/044mj/cvera
-BugReports: https://github.com/044mj/cvera/issues
+    tidyr,
+    DBI,
+    odbc,
+    readxl,
+    fs,
+    crayon
+Suggests:
+    rstudioapi
+URL: https://github.com/j-madden-m/cvera
+BugReports: https://github.com/j-madden-m/cvera/issues
+Depends: 
+    R (>= 3.5)
