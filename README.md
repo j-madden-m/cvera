@@ -20,8 +20,15 @@ You can install the development version of cvera from
 [GitHub](https://github.com/) with:
 
 ``` r
+# using devtools
 # install.packages("devtools")
 devtools::install_github("j-madden-m/cvera")
+
+# or
+
+# using pak <https://pak.r-lib.org/index.html>
+# install.packages("pak")
+pak::pak("j-madden-m/cvera")
 ```
 
 Additionally install cvera specific **snippets** (note, this currently
@@ -29,6 +36,7 @@ only works in `RStudio` (\> version 1.3), not currently implemented for
 `Positron`):
 
 ``` r
+library(cvera)
 install_cvera_snippets()
 ```
 
@@ -56,7 +64,6 @@ latest file name, date etc:
 Or manually reading it in using `master_tb_cvera_read_in` function:
 
 ``` r
-library(cvera)
 my_master_tb_dataset <- master_tb_cvera_read_in()
 ```
 

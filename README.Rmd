@@ -29,15 +29,26 @@ knitr::opts_chunk$set(
 You can install the development version of cvera from [GitHub](https://github.com/) with:
 
 ``` r
+# using devtools
 # install.packages("devtools")
 devtools::install_github("j-madden-m/cvera")
+
+# or
+
+# using pak <https://pak.r-lib.org/index.html>
+# install.packages("pak")
+pak::pak("j-madden-m/cvera")
 ```
+
 
 Additionally install cvera specific **snippets** (note, this currently only works in `RStudio` (> version 1.3), not currently implemented for `Positron`):
 
 ``` r
+library(cvera)
 install_cvera_snippets()
 ```
+
+
 This appends cvera snippets to your snippets file.
 
 
@@ -73,7 +84,6 @@ knitr::include_graphics("data/snippet_screenshot_master_console.png") #works in 
 Or manually reading it in using `master_tb_cvera_read_in` function:
 
 ```{r reading_in_master_tb, include = T, warning = FALSE, eval = FALSE}
-library(cvera)
 my_master_tb_dataset <- master_tb_cvera_read_in()
 ```
 

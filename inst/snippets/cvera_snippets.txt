@@ -13,7 +13,7 @@ snippet cvera_bd_df_snip
 snippet cvera_all_cases_collapsed_snip
 	# read in all_cases_collapsed
 	all_cases_collapsed <- all_cases_cvera_read_in()
-  case_count_time_series()
+	case_count_time_series()
 
 snippet cvera_connect_to_db_moves_snip
 	# connect to Jamie T SQL AIM database ----
