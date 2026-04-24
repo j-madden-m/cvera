@@ -1,5 +1,5 @@
-#' @title bTB case count time series plot by month
-#' @description
+#' bTB case count time series plot by month
+#'
 #' Creates a time series plot of bTB case counts by detection type.
 #'
 #'
@@ -18,8 +18,10 @@
 #' case_count_time_series()
 #' }
 #'
-#' @importFrom magrittr %>%
 #' @export
+#'
+#' @importFrom magrittr %>%
+
 case_count_time_series <- function(df = all_cases_collapsed, month_interactive = TRUE) {
 
   next_line <- "\n"
@@ -187,3 +189,5 @@ case_count_time_series <- function(df = all_cases_collapsed, month_interactive =
     height_svg = 10
   )
 }
+
+
