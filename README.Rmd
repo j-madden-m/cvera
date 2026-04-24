@@ -33,28 +33,30 @@ You can install the development version of cvera from [GitHub](https://github.co
 devtools::install_github("j-madden-m/cvera")
 ```
 
-Additionally install cvera specific **snippets**:
+Additionally install cvera specific **snippets** (note, this currently only works in `RStudio` (> version 1.3), not currently implemented for `Positron`):
 
 ``` r
 install_cvera_snippets()
 ```
+This appends cvera snippets to your snippets file.
 
 
-## Automatically reading in the latest available data
+
+## Automatically reading in the latest available data (with access to server)
 
 Once snippets are installed, cvera related snippets can be accessed by starting to type "cvera":
 
-```{r snippetscreenshot, echo = F, eval = T, include=T, warning = F, error=F, out.width="100%", out.width="100%", fig.cap = "cvera snippets"}
+```{r snippetscreenshot, echo = F, eval = T, include=T, warning = F, error=F, out.width="100%", out.width="100%", fig.cap = ""}
 knitr::include_graphics("data/snippet_screenshot.png") #works in chunk but not when you render
 #knitr::include_graphics(path.expand("~/data/historic_gif_eamonn.png"))
 ```
 
 ### master_tb (herd-level skin testing data)
 
-E.g. clicking `cvera_master_tb_snip` will automatically populate the following code:
+E.g. clicking `cvera_master_tb_snip`, this will automatically populate the following code:
 
 
-```{r snippetscreenshotmastertb, echo = F, eval = T, include=T, warning = F, error=F, out.width="100%", out.width="100%", fig.cap = "master_tb snippets"}
+```{r snippetscreenshotmastertb, echo = F, eval = T, include=T, warning = F, error=F, out.width="100%", out.width="100%", fig.cap = ""}
 knitr::include_graphics("data/snippet_screenshot_master.png") #works in chunk but not when you render
 #knitr::include_graphics(path.expand("~/data/historic_gif_eamonn.png"))
 ```
@@ -62,7 +64,7 @@ knitr::include_graphics("data/snippet_screenshot_master.png") #works in chunk bu
 which reads in the most recent `master_tb` dataset and gives details of latest file name, date etc:
 
 
-```{r snippetscreenshotmastertbconcole, echo = F, eval = T, include=T, warning = F, error=F, out.width="100%", out.width="100%", fig.cap = "Console output"}
+```{r snippetscreenshotmastertbconcole, echo = F, eval = T, include=T, warning = F, error=F, out.width="100%", out.width="100%", fig.cap = ""}
 knitr::include_graphics("data/snippet_screenshot_master_console.png") #works in chunk but not when you render
 #knitr::include_graphics(path.expand("~/data/historic_gif_eamonn.png"))
 ```
@@ -95,6 +97,16 @@ Use snippet `cvera_all_cases_collapsed_snip` to produce:
 ```{r reading_in_all_cases, include = T, warning = FALSE, eval = FALSE}
 # read in all_cases_collapsed
 all_cases_collapsed <- all_cases_collapsed_read_in()
+case_count_time_series()
+```
+
+This additionally includes the line: `case_count_time_series()` which automatically plots the most recent data:
+
+
+
+```{r timeseriesplot, echo = F, eval = T, include=T, warning = F, error=F, out.width="100%", out.width="100%", fig.cap = ""}
+knitr::include_graphics("data/time_series_cases.png") #works in chunk but not when you render
+#knitr::include_graphics(path.expand("~/data/historic_gif_eamonn.png"))
 ```
 
 
@@ -128,6 +140,15 @@ knitr::include_graphics("data/herd_plot_figure_2.png") #works in chunk but not w
 #knitr::include_graphics(path.expand("~/data/historic_gif_eamonn.png"))
 ```
 
+
+
+## SICTT table definitions
+
+Simply returns a table of all skin test types along with test type code, name and an explanation of each test.
+
+```{r test_type_definitions, eval = F, echo = T}
+test_types_sictt_table()
+```
 
 
 ## Check if BD occured during particular years

@@ -24,54 +24,34 @@ You can install the development version of cvera from
 devtools::install_github("j-madden-m/cvera")
 ```
 
-Additionally install cvera specific **snippets**:
+Additionally install cvera specific **snippets** (note, this currently
+only works in `RStudio` (\> version 1.3), not currently implemented for
+`Positron`):
 
 ``` r
 install_cvera_snippets()
 ```
 
-## Automatically reading in the latest available data
+This appends cvera snippets to your snippets file.
+
+## Automatically reading in the latest available data (with access to server)
 
 Once snippets are installed, cvera related snippets can be accessed by
 starting to type “cvera”:
 
-<div class="figure">
-
-<img src="data/snippet_screenshot.png" alt="cvera snippets" width="100%" />
-<p class="caption">
-
-cvera snippets
-</p>
-
-</div>
+<img src="data/snippet_screenshot.png" width="100%" />
 
 ### master_tb (herd-level skin testing data)
 
-E.g. clicking `cvera_master_tb_snip` will automatically populate the
-following code:
+E.g. clicking `cvera_master_tb_snip`, this will automatically populate
+the following code:
 
-<div class="figure">
-
-<img src="data/snippet_screenshot_master.png" alt="master_tb snippets" width="100%" />
-<p class="caption">
-
-master_tb snippets
-</p>
-
-</div>
+<img src="data/snippet_screenshot_master.png" width="100%" />
 
 which reads in the most recent `master_tb` dataset and gives details of
 latest file name, date etc:
 
-<div class="figure">
-
-<img src="data/snippet_screenshot_master_console.png" alt="Console output" width="100%" />
-<p class="caption">
-
-Console output
-</p>
-
-</div>
+<img src="data/snippet_screenshot_master_console.png" width="100%" />
 
 Or manually reading it in using `master_tb_cvera_read_in` function:
 
@@ -96,7 +76,13 @@ Use snippet `cvera_all_cases_collapsed_snip` to produce:
 ``` r
 # read in all_cases_collapsed
 all_cases_collapsed <- all_cases_collapsed_read_in()
+case_count_time_series()
 ```
+
+This additionally includes the line: `case_count_time_series()` which
+automatically plots the most recent data:
+
+<img src="data/time_series_cases.png" width="100%" />
 
 ### connect to AIM movement database
 
@@ -117,6 +103,15 @@ We can include raw data for the herd in the output
 ``` r
 # include tables
 herd_plot("x1234567", include_tables = TRUE) #fake herd
+```
+
+## SICTT table definitions
+
+Simply returns a table of all skin test types along with test type code,
+name and an explanation of each test.
+
+``` r
+test_types_sictt_table()
 ```
 
 ## Check if BD occured during particular years

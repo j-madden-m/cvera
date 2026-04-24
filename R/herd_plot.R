@@ -440,6 +440,10 @@ herd_plot <- function(herd_no_character, start_date = NULL, end_date = NULL, for
   if (include_tables == TRUE) {
     bd_df_tmp_gt <- bd_df_tmp |>
       gt::gt() |>
+      gt::tab_header(
+        title = "Breakdown dataset for herd",
+        subtitle = "Summary of BD events"
+      ) |>
       gt::fmt_markdown(gt::everything()) |>
       gt::cols_width(
         1 ~ gt::px(40)
@@ -466,6 +470,10 @@ herd_plot <- function(herd_no_character, start_date = NULL, end_date = NULL, for
 
     master_tb_tmp_gt <- master_tb_tmp |>
       gt::gt() |>
+      gt::tab_header(
+        title = "master_tb dataset for herd",
+        subtitle = "Raw herd-level skin-level of BD events"
+      ) |>
       gt::fmt_markdown(gt::everything()) |>
       gt::cols_width(
         1 ~ gt::px(40)

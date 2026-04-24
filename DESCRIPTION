@@ -36,7 +36,11 @@ Imports:
     odbc,
     readxl,
     fs,
-    crayon
+    crayon,
+    stringr,
+    scales,
+    ggtext,
+    magrittr
 Suggests:
     rstudioapi
 URL: https://github.com/j-madden-m/cvera
