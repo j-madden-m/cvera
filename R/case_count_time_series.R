@@ -97,8 +97,10 @@ case_count_time_series <- function(df = all_cases_collapsed, month_interactive =
     dplyr::group_by(year) %>%
     dplyr::summarise(
       min_date = min(year_month),
-      max_date = min_date %m+% lubridate::years(1),
-      max_date = max_date %m-% lubridate::days(1),
+      # min_date %m+% lubridate::years(1),
+      max_date = lubridate::`%m+%`(min_date, lubridate::years(1)),
+      # max_date lubridate::`%m+%` lubridate::days(1)
+      max_date = lubridate::`%m+%`(max_date, lubridate::years(1)),
       min_prev = dplyr::first(min_prev),
       max_prev = dplyr::first(max_prev)
     ) %>%
