@@ -21,6 +21,7 @@
 #' @export
 #'
 #' @importFrom magrittr %>%
+#' @importFrom lubridate %m+%
 
 case_count_time_series <- function(df = all_cases_collapsed, month_interactive = TRUE) {
 
